@@ -11,6 +11,7 @@
     "generate": "drizzle-kit generate",
     "migrate": "drizzle-kit migrate"
   },
+  "type": "module",
   "dependencies": {
     "@neondatabase/serverless": "^1.0.0",
     "@radix-ui/react-label": "^2.1.2",
