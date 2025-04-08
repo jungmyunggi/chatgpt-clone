@@ -31,7 +31,7 @@ export const signup = async (_: any, formData: FormData) => {
         await db.insert(user).values({ name, email, password: hashedPassword });
     } catch (error) {
         console.error(error);
-        return { errorMessage: "문제발생" };
+        return { errorMessage: "회원가입 중 문제발생" };
     }
     redirect("/login");
 };
