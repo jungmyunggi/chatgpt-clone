@@ -12,7 +12,7 @@ export default function ChatLayout({
                 <Sidebar />
             </div>
             {/* header + chat */}
-            <div className="flex flex-col flex-1 h-full">
+            <div className="flex flex-col flex-1 h-full overflow-y-auto">
                 <Header />
                 {children}
             </div>
