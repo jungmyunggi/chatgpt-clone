@@ -9,11 +9,14 @@ import {
     DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { Ellipsis, Pencil, Trash } from "lucide-react";
-import { usePathname } from "next/navigation";
+import { useParams, usePathname, useRouter } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { useSheetStore } from "@/store/sheet";
 import toast from "react-hot-toast";
-import { updateConversation } from "@/actions/conversation";
+import { useModalStore } from "@/store/modal";
+import { deleteConversation, updateConversation } from "@/actions/conversation";
+import { ModalFooter } from "../modal/ModalFooter";
+import { BASE_URL } from "@/constants/routes";
 type Props = {
     item: {
         id: string;
@@ -27,9 +30,13 @@ export function SidebarItem({ item }: Props) {
     const pathname = usePathname();
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isEdit, setIsEdit] = useState(false);
+    const param = useParams();
+    const router = useRouter();
     const [value, setValue] = useState(item.lable);
     const setOpen = useSheetStore((state) => state.setOpen);
     const inputRef = useRef<HTMLInputElement>(null);
+    const openModal = useModalStore((state) => state.openModal);
+    const closeModal = useModalStore((state) => state.closeModal);
     const handleMenu = () => {
         setIsMenuOpen((prev) => !prev);
     };
@@ -57,7 +64,32 @@ export function SidebarItem({ item }: Props) {
         setIsEdit(true);
         setIsMenuOpen(false);
     };
+    const handleDelete = async () => {
+        try {
+            await deleteConversation(id);
 
+            toast.success("삭제에 성공했습니다.");
+            if (param.id === id) {
+                router.push(BASE_URL);
+            }
+            closeModal();
+        } catch (error) {
+            console.error(error);
+            toast.error("삭제에 실패했습니다.");
+        }
+    };
+    const clickDelete = (event: React.MouseEvent<HTMLDivElement>) => {
+        event.preventDefault();
+
+        // 삭제모달 로직
+        openModal({
+            title: "정말 삭제하시겠습니까?",
+            description: "삭제 이후엔 복구가 불가능합니다.",
+            footer: (
+                <ModalFooter onCancle={closeModal} onConfirm={handleDelete} />
+            ),
+        });
+    };
     useEffect(() => {
         if (isEdit && inputRef.current) {
             inputRef.current.focus();
@@ -116,7 +148,7 @@ export function SidebarItem({ item }: Props) {
                             <Pencil size={18} />
                             수정
                         </DropdownMenuItem>
-                        <DropdownMenuItem>
+                        <DropdownMenuItem onClick={clickDelete}>
                             <Trash size={18} />
                             삭제
                         </DropdownMenuItem>
