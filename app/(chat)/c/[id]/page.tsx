@@ -5,6 +5,7 @@ type Props = {
     params: { id: string };
 };
 export default async function ConversationPage({ params }: Props) {
-    const messages = await getMessageByConversation(params.id);
+    const { id } = await Promise.resolve(params);
+    const messages = await getMessageByConversation(id);
     return <Chat initalMessages={messages} />;
 }
