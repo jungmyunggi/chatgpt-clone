@@ -10,6 +10,7 @@ import { useModelStore } from "@/store/model";
 import { useParams, useRouter } from "next/navigation";
 import { addConversation, createConversation } from "@/actions/conversation";
 import { CHAT_ROUTES } from "@/constants/routes";
+import { useUserStore } from "@/store/user";
 
 type Props = {
     initalMessages: TMessage[];
@@ -18,6 +19,7 @@ type Props = {
 export function Chat({ initalMessages }: Props) {
     const router = useRouter();
     const params = useParams<{ id: string }>();
+    const user = useUserStore((state) => state.user);
     const { messages, setMessages, input, handleInputChange, handleSubmit } =
         useChat({
             onFinish: async (messages) => {
@@ -64,7 +66,7 @@ export function Chat({ initalMessages }: Props) {
                         {messages.map((message) => (
                             <Message
                                 key={message.id}
-                                name="user"
+                                name={user.name}
                                 role={message.role}
                                 content={message.content}
                             />
