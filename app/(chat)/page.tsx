@@ -1,4 +1,4 @@
 import { Chat } from "@/components/chat/Chat";
 export default function ChatPage() {
-    return <Chat initalMessages={[]} />;
+    return <Chat initialMessages={[]} />;
 }

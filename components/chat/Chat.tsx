@@ -13,10 +13,10 @@ import { CHAT_ROUTES } from "@/constants/routes";
 import { useUserStore } from "@/store/user";
 
 type Props = {
-    initalMessages: TMessage[];
+    initialMessages: TMessage[];
 };
 
-export function Chat({ initalMessages }: Props) {
+export function Chat({ initialMessages }: Props) {
     const router = useRouter();
     const params = useParams<{ id: string }>();
     const user = useUserStore((state) => state.user);
@@ -48,8 +48,8 @@ export function Chat({ initalMessages }: Props) {
     const model = useModelStore((state) => state.model);
     const scrollRef = useRef<HTMLDivElement>(null);
     useEffect(() => {
-        setMessages(initalMessages);
-    }, [initalMessages, setMessages]);
+        setMessages(initialMessages);
+    }, [initialMessages, setMessages]);
     useEffect(() => {
         if (scrollRef.current) {
             scrollRef.current.scrollIntoView({ behavior: "smooth" });

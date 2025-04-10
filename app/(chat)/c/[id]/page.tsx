@@ -1,11 +1,13 @@
 import { Chat } from "@/components/chat/Chat";
 import { getMessageByConversation } from "@/data/conversation";
 
-type Props = {
-    params: { id: string };
-};
-export default async function ConversationPage({ params }: Props) {
-    const { id } = await Promise.resolve(params);
+export default async function ConversationPage({
+    params,
+}: {
+    params: Promise<{ id: string }>;
+}) {
+    const { id } = await params;
+    console.log(id);
     const messages = await getMessageByConversation(id);
-    return <Chat initalMessages={messages} />;
+    return <Chat initialMessages={messages} />;
 }
