@@ -16,7 +16,7 @@ export function AutoResizingTextArea({
     return (
         <Textarea
             ref={textareaRef}
-            className="min-h-[50px] max-h-[200px]"
+            className="min-h-[50px] max-h-[200px] resize-none"
             {...others}
             value={value}
         />

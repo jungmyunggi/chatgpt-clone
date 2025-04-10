@@ -55,6 +55,7 @@ export function Chat({ initialMessages }: Props) {
             scrollRef.current.scrollIntoView({ behavior: "smooth" });
         }
     }, [messages]);
+
     return (
         <div className="flex flex-col w-[80%] h-full mx-auto">
             {/* 채팅 */}
@@ -80,6 +81,12 @@ export function Chat({ initialMessages }: Props) {
                 <form
                     className="flex items-center justify-center gap-4"
                     onSubmit={(e) => handleSubmit(e, { data: model })}
+                    onKeyDown={(e) => {
+                        if (e.key === "Enter" && !e.shiftKey) {
+                            e.preventDefault();
+                            handleSubmit(e, { data: model });
+                        }
+                    }}
                 >
                     <AutoResizingTextArea
                         value={input}
