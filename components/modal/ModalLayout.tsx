@@ -6,7 +6,6 @@ export function ModalLayout() {
     const isOpen = useModalStore((state) => state.open);
 
     useEffect(() => {
-        console.log(isOpen);
         if (isOpen) {
             document.body.style = "none";
         } else {

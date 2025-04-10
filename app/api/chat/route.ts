@@ -14,6 +14,5 @@ export async function POST(req: Request) {
         model: openai(model || "gpt-3.5-turbo"),
         messages,
     });
-    console.log(JSON.stringify(messages));
     return result.toDataStreamResponse();
 }
